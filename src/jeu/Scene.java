@@ -3,6 +3,7 @@ package jeu;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import personnages.FlappyBird;
 import tuyau.Tuyau;
 
 import java.awt.*;
@@ -25,10 +26,12 @@ public class Scene extends JPanel {
     private final int ECART_TUYAU = 120;
 
     public int xFonds;
-    private int dxTuyaux;
+
     private int xTuyaux;
 
     private Random hasard;
+
+    public FlappyBird flappyBird;
 
     public Scene() {
         super();
@@ -37,7 +40,6 @@ public class Scene extends JPanel {
         this.xFonds = 0;
 
         this.xTuyaux = 100;
-        this.dxTuyaux = 0;
 
         this.tuyauHaut1 = new Tuyau(this.xTuyaux, -150, "/images/tuyauHaut.png");
         this.tuyauBas1 = new Tuyau(this.xTuyaux, 250, "/images/tuyauBas.png");
@@ -48,7 +50,13 @@ public class Scene extends JPanel {
         this.tuyauHaut3 = new Tuyau(this.xTuyaux + this.DISTANCE_TUYAU * 2, -120, "/images/tuyauHaut.png");
         this.tuyauBas3 = new Tuyau(this.xTuyaux + this.DISTANCE_TUYAU * 2, 280, "/images/tuyauBas.png");
 
+        this.flappyBird = new FlappyBird(100, 150, "/images/oiseau1.png");
+
         hasard = new Random();
+
+        this.setFocusable(true);
+        this.requestFocusInWindow();
+        this.addKeyListener(new Clavier());
 
         Thread chronoEcran = new Thread(new Chrono());
         chronoEcran.start();
@@ -69,7 +77,7 @@ public class Scene extends JPanel {
         this.tuyauHaut1.setX(this.tuyauHaut1.getX() - 1);
         this.tuyauBas1.setX(this.tuyauHaut1.getX());
 
-        if(this.tuyauHaut1.getX() == -100) {
+        if (this.tuyauHaut1.getX() == -100) {
             this.tuyauHaut1.setX(this.tuyauHaut3.getX() + this.DISTANCE_TUYAU);
             this.tuyauHaut1.setY(-100 - 10 * this.hasard.nextInt(18));
             this.tuyauBas1.setY(this.tuyauHaut1.getY() + this.tuyauHaut1.getHauteur() + this.ECART_TUYAU);
@@ -81,7 +89,7 @@ public class Scene extends JPanel {
         this.tuyauHaut2.setX(this.tuyauHaut2.getX() - 1);
         this.tuyauBas2.setX(this.tuyauHaut2.getX());
 
-        if(this.tuyauHaut2.getX() == -100) {
+        if (this.tuyauHaut2.getX() == -100) {
             this.tuyauHaut2.setX(this.tuyauHaut1.getX() + this.DISTANCE_TUYAU);
             this.tuyauHaut2.setY(-100 - 10 * this.hasard.nextInt(18));
             this.tuyauBas2.setY(this.tuyauHaut2.getY() + this.tuyauHaut2.getHauteur() + this.ECART_TUYAU);
@@ -93,7 +101,7 @@ public class Scene extends JPanel {
         this.tuyauHaut3.setX(this.tuyauHaut3.getX() - 1);
         this.tuyauBas3.setX(this.tuyauHaut3.getX());
 
-        if(this.tuyauHaut3.getX() == -100) {
+        if (this.tuyauHaut3.getX() == -100) {
             this.tuyauHaut3.setX(this.tuyauHaut2.getX() + this.DISTANCE_TUYAU);
             this.tuyauHaut3.setY(-100 - 10 * this.hasard.nextInt(18));
             this.tuyauBas3.setY(this.tuyauHaut3.getY() + this.tuyauHaut3.getHauteur() + this.ECART_TUYAU);
@@ -105,5 +113,7 @@ public class Scene extends JPanel {
     public void paintComponent(Graphics g) {
         this.deplacementFond(g);
         this.deplacementTuyaux(g);
+        this.flappyBird.setY(this.flappyBird.getY() + 1);
+        g.drawImage(this.flappyBird.getImgOiseau(), this.flappyBird.getX(), this.flappyBird.getY(), null);
     }
 }
