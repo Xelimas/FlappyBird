@@ -7,7 +7,7 @@ public class Chrono implements Runnable {
     @Override
     public void run() {
 
-        while (true) {
+        while (flappyMain.scene.finDuJeu == false) {
 
             flappyMain.scene.xFonds--;
             flappyMain.scene.repaint();

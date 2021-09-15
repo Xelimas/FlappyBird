@@ -1,6 +1,9 @@
 package personnages;
 
 import javax.swing.ImageIcon;
+
+import tuyau.Tuyau;
+
 import java.awt.*;
 
 public class FlappyBird implements Runnable {
@@ -44,6 +47,22 @@ public class FlappyBird implements Runnable {
         } else if (this.dy == 1) {
             this.icoOiseau = new ImageIcon(getClass().getResource("/images/oiseau1.png"));
             this.imgOiseau = this.icoOiseau.getImage();
+        }
+    }
+
+    public boolean collision(Tuyau tuyau) {
+        if (tuyau.getY() < 50) { // Tuyau haut
+            if (this.y <= tuyau.getY() + tuyau.getHauteur() && this.x + this.largeur >= tuyau.getX()
+                    && this.x <= tuyau.getX() + tuyau.getLargeur()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (this.y + this.hauteur >= tuyau.getY() && this.x + this.largeur >= tuyau.getX()
+                && this.x <= tuyau.getX() + tuyau.getLargeur()) {
+            return true;
+        } else {
+            return false;
         }
     }
 
